@@ -1,0 +1,176 @@
+Wikipdia: A hash table (also hash map) is a data structure used to implement an associative array, a structure that can map keys to values. A hash table uses a hash function to compute an index into an array of buckets or slots, from which the correct value can be found.
+
+Hashing:
+The idea of hashing is to distribute the entries (key/value pairs) across an array of buckets. Given a key, the algorithm computes an index that suggests where the entry can be found:
+
+index = f(key, array_size)
+Often this is done in two steps:
+
+hash = hashfunc(key)
+index = hash % array_size
+
+Hash Collision:
+different keys that are assigned by the hash function to the same bucket—will occur and must be accommodated in some way.
+	1.Seperate Chaining(open hashing or closed addressing)
+	In the method known as separate chaining, each bucket is independent, and has some sort of list of entries with the same index. The time for hash table operations is the time to find the bucket (which is constant) plus the time for the list operation. (The technique is also called open hashing or closed addressing.)
+	2.Open addressing(closed hashing)
+	all entry records are stored in the bucket array itself. When a new entry has to be inserted, the buckets are examined, starting with the hashed-to slot and proceeding in some probe sequence, until an unoccupied slot is found. When searching for an entry, the buckets are scanned in the same sequence, until either the target record is found, or an unused array slot is found, which indicates that there is no such key in the table. The name "open addressing" refers to the fact that the location ("address") of the item is not determined by its hash value.
+
+------------------------------
+
+Java - Hashtable<K,V>
+public class Hashtable<K,V>
+extends Dictionary<K,V>
+implements Map<K,V>, Cloneable, Serializable
+This class implements a hash table, which maps keys to values. Any non-null object can be used as a key or as a value.
+To successfully store and retrieve objects from a hashtable, the objects used as keys must implement the hashCode method and the equals method.
+
+An instance of Hashtable has two parameters that affect its performance: initial capacity and load factor. The capacity is the number of buckets in the hash table, and the initial capacity is simply the capacity at the time the hash table is created. Note that the hash table is open: in the case of a "hash collision", a single bucket stores multiple entries, which must be searched sequentially. The load factor is a measure of how full the hash table is allowed to get before its capacity is automatically increased. The initial capacity and load factor parameters are merely hints to the implementation. The exact details as to when and whether the rehash method is invoked are implementation-dependent.
+
+Generally, the default load factor (.75) offers a good tradeoff between time and space costs. Higher values decrease the space overhead but increase the time cost to look up an entry (which is reflected in most Hashtable operations, including get and put).
+
+The initial capacity controls a tradeoff between wasted space and the need for rehash operations, which are time-consuming. No rehash operations will ever occur if the initial capacity is greater than the maximum number of entries the Hashtable will contain divided by its load factor. However, setting the initial capacity too high can waste space.
+
+If many entries are to be made into a Hashtable, creating it with a sufficiently large capacity may allow the entries to be inserted more efficiently than letting it perform automatic rehashing as needed to grow the table.
+
+Functions:
+[Constructors]
+Hashtable()
+Constructs a new, empty hashtable with a default initial capacity (11) and load factor (0.75).
+Hashtable(int initialCapacity)
+Constructs a new, empty hashtable with the specified initial capacity and default load factor (0.75).
+Hashtable(int initialCapacity, float loadFactor)
+Constructs a new, empty hashtable with the specified initial capacity and the specified load factor.
+Hashtable(Map<? extends K,? extends V> t)
+Constructs a new hashtable with the same mappings as the given Map.
+
+size
+public int size()
+Returns the number of keys in this hashtable.
+Specified by:
+size in interface Map<K,V>
+Specified by:
+size in class Dictionary<K,V>
+Returns:
+the number of keys in this hashtable.
+
+isEmpty
+public boolean isEmpty()
+Tests if this hashtable maps no keys to values.
+Specified by:
+isEmpty in interface Map<K,V>
+Specified by:
+isEmpty in class Dictionary<K,V>
+Returns:
+true if this hashtable maps no keys to values; false otherwise.
+
+keys
+public Enumeration<K> keys()
+Returns an enumeration of the keys in this hashtable.
+Specified by:
+keys in class Dictionary<K,V>
+Returns:
+an enumeration of the keys in this hashtable.
+
+elements
+public Enumeration<V> elements()
+Returns an enumeration of the values in this hashtable. Use the Enumeration methods on the returned object to fetch the elements sequentially.
+Specified by:
+elements in class Dictionary<K,V>
+Returns:
+an enumeration of the values in this hashtable.
+
+containsKey
+public boolean containsKey(Object key)
+Tests if the specified object is a key in this hashtable.
+Specified by:
+containsKey in interface Map<K,V>
+Parameters:
+key - possible key
+Returns:
+true if and only if the specified object is a key in this hashtable, as determined by the equals method; false otherwise.
+Throws:
+NullPointerException - if the key is null
+
+get
+public V get(Object key)
+Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
+More formally, if this map contains a mapping from a key k to a value v such that (key.equals(k)), then this method returns v; otherwise it returns null. (There can be at most one such mapping.)
+Specified by:
+get in interface Map<K,V>
+Specified by:
+get in class Dictionary<K,V>
+Parameters:
+key - the key whose associated value is to be returned
+Returns:
+the value to which the specified key is mapped, or null if this map contains no mapping for the key
+Throws:
+NullPointerException - if the specified key is null
+
+put
+public V put(K key,
+    V value)
+	Maps the specified key to the specified value in this hashtable. Neither the key nor the value can be null.
+	The value can be retrieved by calling the get method with a key that is equal to the original key.
+
+	Specified by:
+	put in interface Map<K,V>
+	Specified by:
+	put in class Dictionary<K,V>
+	Parameters:
+	key - the hashtable key
+	value - the value
+	Returns:
+	the previous value of the specified key in this hashtable, or null if it did not have one
+	Throws:
+	NullPointerException - if the key or value is null
+
+remove
+	public V remove(Object key)
+	Removes the key (and its corresponding value) from this hashtable. This method does nothing if the key is not in the hashtable.
+	Specified by:
+	remove in interface Map<K,V>
+	Specified by:
+	remove in class Dictionary<K,V>
+	Parameters:
+	key - the key that needs to be removed
+	Returns:
+	the value to which the key had been mapped in this hashtable, or null if the key did not have a mapping
+	Throws:
+	NullPointerException - if the key is null
+
+putAll
+	public void putAll(Map<? extends K,? extends V> t)
+	Copies all of the mappings from the specified map to this hashtable. These mappings will replace any mappings that this hashtable had for any of the keys currently in the specified map.
+	Specified by:
+	putAll in interface Map<K,V>
+	Parameters:
+	t - mappings to be stored in this map
+	Throws:
+	NullPointerException - if the specified map is null
+
+keySet
+public Set<K> keySet()
+Returns a Set view of the keys contained in this map. The set is backed by the map, so changes to the map are reflected in the set, and vice-versa. If the map is modified while an iteration over the set is in progress (except through the iterator's own remove operation), the results of the iteration are undefined. The set supports element removal, which removes the corresponding mapping from the map, via the Iterator.remove, Set.remove, removeAll, retainAll, and clear operations. It does not support the add or addAll operations.
+Specified by:
+keySet in interface Map<K,V>
+Returns:
+a set view of the keys contained in this map
+
+entrySet
+public Set<Map.Entry<K,V>> entrySet()
+	Returns a Set view of the mappings contained in this map. The set is backed by the map, so changes to the map are reflected in the set, and vice-versa. If the map is modified while an iteration over the set is in progress (except through the iterator's own remove operation, or through the setValue operation on a map entry returned by the iterator) the results of the iteration are undefined. The set supports element removal, which removes the corresponding mapping from the map, via the Iterator.remove, Set.remove, removeAll, retainAll and clear operations. It does not support the add or addAll operations.
+	Specified by:
+	entrySet in interface Map<K,V>
+	Returns:
+	a set view of the mappings contained in this map')
+
+HashMap和Hashtable的区别
+
+HashMap和Hashtable都实现了Map接口，但决定用哪一个之前先要弄清楚它们之间的分别。主要的区别有：线程安全性，同步(synchronization)，以及速度。
+
+HashMap几乎可以等价于Hashtable，除了HashMap是非synchronized的，并可以接受null(HashMap可以接受为null的键值(key)和值(value)，而Hashtable则不行)。
+HashMap是非synchronized，而Hashtable是synchronized，这意味着Hashtable是线程安全的，多个线程可以共享一个Hashtable；而如果没有正确的同步的话，多个线程是不能共享HashMap的。Java 5提供了ConcurrentHashMap，它是HashTable的替代，比HashTable的扩展性更好。
+另一个区别是HashMap的迭代器(Iterator)是fail-fast迭代器，而Hashtable的enumerator迭代器不是fail-fast的。所以当有其它线程改变了HashMap的结构（增加或者移除元素），将会抛出ConcurrentModificationException，但迭代器本身的remove()方法移除元素则不会抛出ConcurrentModificationException异常。但这并不是一个一定发生的行为，要看JVM。这条同样也是Enumeration和Iterator的区别。
+由于Hashtable是线程安全的也是synchronized，所以在单线程环境下它比HashMap要慢。如果你不需要同步，只需要单一线程，那么使用HashMap性能要好过Hashtable。
+HashMap不能保证随着时间的推移Map中的元素次序是不变的。
